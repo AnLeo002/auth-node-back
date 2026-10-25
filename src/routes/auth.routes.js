@@ -16,7 +16,7 @@ router.post("/registro", async (req,res)=>{
       "SELECT * FROM users WHERE username = ?",[username]
     );
     if(users.length > 0){
-      res.status(409).json({
+      return res.status(409).json({
         error: "Conflict",
         mensaje:"El usuario ya se encuentra registrado en la base de datos"
       });
@@ -46,7 +46,7 @@ router.post("/login", async (req,res)=>{
       "SELECT * FROM users WHERE username = ?",[username]
     );
     const userFound = users[0];
-    if(userFound == null) res.status(401).json({
+    if(userFound == null) res.status(404).json({
       error:"Not found",
       mensaje:"El usuario no se encuentra en la base de datos"
     });
@@ -54,7 +54,7 @@ router.post("/login", async (req,res)=>{
       error:"Conflict",
       mensaje:"El usuario o contraseña no coinciden"
     });
-    res.status(201).json({
+    res.status(200).json({
       mensaje:"Autenticación correcta"
     })
 
